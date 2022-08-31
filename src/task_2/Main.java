@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        var array = new int[]{5, 6, 3, 2, 5, 1, 4, 9};
+        int[] array = new int[]{5, 6, 3, 2, 5, 1, 4, 9};
         quickSort(array, 0, array.length - 1);
 
         assert Arrays.equals(array, new int[]{1, 2, 3, 4, 5, 5, 6, 9});
