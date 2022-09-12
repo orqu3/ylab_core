@@ -23,9 +23,10 @@ public class Main {
     }
 
     private static boolean fuzzySearch(String target, String original) {
-        if (original.length() < target.length() ||
-                original.length() == target.length()
-                        && original.charAt(0) != target.charAt(0)) {
+        if (target == null || original == null
+                || original.length() < target.length()
+                || original.length() == target.length()
+                && original.charAt(0) != target.charAt(0)) {
             return false;
         }
         int i = 0;

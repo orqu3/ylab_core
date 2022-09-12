@@ -22,6 +22,7 @@ public class Main {
         System.out.println(Arrays.toString(
                 IntStream
                         .range(0, array.length)
+                        .filter(Objects :: nonNull)
                         .filter(i -> sumMap.containsValue(array[i]))
                         .mapToObj(i -> new int[]{array[i], array[sumMap.get(array[i])]})
                         .findFirst()
@@ -32,6 +33,7 @@ public class Main {
     public static Map<Integer, Integer> getSumMap(int[] array, int sum) {
         return IntStream
                 .range(0, array.length)
+                .filter(Objects :: nonNull)
                 .boxed()
                 .collect(Collectors.toMap(
                         Function.identity(),

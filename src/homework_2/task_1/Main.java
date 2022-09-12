@@ -70,6 +70,7 @@ public class Main {
     public static Map<String, Long> getSortedMapWithoutDuplicateFromPersonArray(Person[] array) {
         return Arrays
                 .stream(array)
+                .filter(Objects :: nonNull)
                 .distinct()
                 .sorted(Comparator
                         .comparing(Person::name)
