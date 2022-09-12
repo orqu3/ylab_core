@@ -13,42 +13,27 @@ package homework_2.task_1;
              Value:1
       */
 
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
 
-    static class Person {
-        final int id;
-
-        final String name;
-
-        Person(int id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public String getName() {
-            return name;
-        }
+    record Person(int id, String name) {
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Person person)) return false;
-            return getId() == person.getId() && getName().equals(person.getName());
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (!(o instanceof Person person)) return false;
+                return id() == person.id() && name().equals(person.name());
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(id(), name());
+            }
         }
 
-        @Override
-        public int hashCode() {
-            return Objects.hash(getId(), getName());
-        }
-    }
-
-    private static Person[] RAW_DATA = new Person[]{
+    private static final Person[] RAW_DATA = new Person[]{
             new Person(0, "Harry"),
             new Person(0, "Harry"), // дубликат
             new Person(1, "Harry"), // тёзка
@@ -77,6 +62,27 @@ public class Main {
         System.out.println("Duplicate filtered, grouped by name, sorted by name and id:");
         System.out.println();
 
+        Map<String, Long> result = getSortedMapWithoutDuplicateFromPersonArray(RAW_DATA);
+
+        printMap(result);
+    }
+
+    public static Map<String, Long> getSortedMapWithoutDuplicateFromPersonArray(Person[] array) {
+        return Arrays
+                .stream(array)
+                .filter(Objects :: nonNull)
+                .distinct()
+                .sorted(Comparator
+                        .comparing(Person::name)
+                        .thenComparing(Person::id))
+                .collect(Collectors
+                        .groupingBy(Person::name, LinkedHashMap::new, Collectors.counting()));
+    }
+
+    public static void printMap(Map<?, ?> map) {
+        map
+                .forEach((name, count) ->
+                        System.out.println("Key: " + name + "\n" + "Value:" + count));
     }
 }
 
